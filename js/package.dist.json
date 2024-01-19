@@ -1,0 +1,9 @@
+{
+  "name": "dino-poker-lib",
+  "version": "1.0.0",
+  "description": "An optimized poker equity calculator.",
+  "keywords": ["poker", "equity", "calculator", "pokertech", "holdem", "omaha", "bombpot"],
+  "author": "Joseph Scheinberg",
+  "types": "dist/index.d.ts",
+  "license": "MIT"
+}

@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "test": "jest",
+    "builddebug": "cd .. && cmake --preset wasm-debug && cmake --build --preset wasm-debug",
+    "build": "cd .. && cmake --preset wasm-release && cmake --build --preset wasm-release",
+    "package": "node ./scripts/package.js ../out/dist"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.8",
+    "fs-extra": "^11.1.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
+  }
+}

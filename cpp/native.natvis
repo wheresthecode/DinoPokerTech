@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+<Type Name="CardMask">
+<Expand>
+<CustomListItems>
+
+<Variable Name="itr" InitialValue="0" />
+<Variable Name='sitr' InitialValue="0" />
+<Loop Condition="itr &lt;64">
+<If Condition="((v &gt;&gt; (itr)) &amp; 0x1) != 0">
+    <Item Name='{itr}'>(CardsAll)itr</Item>
+</If>
+<Exec>itr++</Exec>
+</Loop>
+</CustomListItems>
+</Expand>
+</Type>
+</AutoVisualizer>

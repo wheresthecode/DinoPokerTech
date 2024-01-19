@@ -1,0 +1,79 @@
+name: CMake
+
+on:
+  push:
+    branches:
+      - "main"
+      - "dev/*"
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: sudo apt update
+      - run: sudo apt-get install ninja-build
+      - run: sudo apt install ocl-icd-opencl-dev
+
+      - name: Configure CMake
+        run: cmake --log-level=VERBOSE --preset x64-release
+        working-directory: ./cpp
+
+      - name: Build
+        # Build your program with the given configuration
+        run: cmake --build --preset x64-release
+        working-directory: ./cpp
+
+      - name: Test
+        run: ctest --preset x64-release
+        working-directory: ./cpp
+
+  wasm-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: sudo apt update
+      - run: sudo apt-get install ninja-build
+
+      - name: Download emsdk
+        run: git clone https://github.com/emscripten-core/emsdk.git
+
+      - name: Installing EMSDK
+        run: |
+          ./emsdk install latest
+          ./emsdk activate latest
+
+        working-directory: ./emsdk
+
+      - name: Build WASM
+        run: |
+          source ../emsdk/emsdk_env.sh
+          cmake --log-level=VERBOSE --preset wasm-release
+          cmake --build --preset wasm-release
+        working-directory: ./cpp
+
+      - name: Run Node Tests
+        run: |
+          npm ci
+          npm test
+        working-directory: ./js
+
+      - name: Package Distribution
+        run: |
+          npm run package
+        working-directory: ./js
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dino-poker-lib
+          path: ./out/dist
+
+    #- name: Test
+    #  run: ctest --preset x64-release
