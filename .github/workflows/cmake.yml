@@ -3,10 +3,10 @@ name: CMake
 on:
   push:
     branches:
-      - "main"
+      - "master"
       - "dev/*"
   pull_request:
-    branches: ["main"]
+    branches: ["master"]
 
 jobs:
   build:
